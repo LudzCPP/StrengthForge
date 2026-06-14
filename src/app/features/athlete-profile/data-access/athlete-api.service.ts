@@ -9,18 +9,18 @@ interface OneRepMaxDto {
 }
 
 /**
- * Cienki klient HTTP mockowanego mikroserwisu siłowego (data-access).
+ * Klient HTTP mockowanego mikroserwisu zawodnika (data-access).
  *
- * Odpowiada wyłącznie za komunikację i mapowanie DTO → typ domenowy.
- * Zwraca `Observable` (RxJS), bo to natywny kontrakt strumieni HTTP w Angularze;
- * dopiero fasada zamienia go na Signal dla warstwy widoku.
+ * Potwierdzony 1RM to dana profilowa zawodnika, dlatego jej pobieranie żyje
+ * w domenie `athlete-profile`, a nie w `strength-progression` – progresja jest
+ * konsumentem profilu, nie jego właścicielem.
  */
 @Injectable({ providedIn: 'root' })
-export class ProgressionApiService {
+export class AthleteApiService {
   private readonly http = inject(HttpClient);
   private readonly baseUrl = inject(API_BASE_URL);
 
-  /** GET /api/strength/bench-press/1rm – potwierdzony rekord 1RM zawodnika. */
+  /** GET /api/strength/bench-press/1rm – potwierdzony rekord 1RM. */
   getConfirmedOneRepMax(): Observable<number> {
     return this.http
       .get<OneRepMaxDto>(`${this.baseUrl}/strength/bench-press/1rm`)
