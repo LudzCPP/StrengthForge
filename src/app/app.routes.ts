@@ -12,4 +12,12 @@ export const routes: Routes = [
         (m) => m.RoadTo100Component,
       ),
   },
+  {
+    path: 'recovery',
+    title: 'Asystent regeneracji · StrengthForge',
+    loadComponent: () =>
+      import('./features/recovery-ai/feature/recovery-advisor/recovery-advisor.component').then(
+        (m) => m.RecoveryAdvisorComponent,
+      ),
+  },
 ];

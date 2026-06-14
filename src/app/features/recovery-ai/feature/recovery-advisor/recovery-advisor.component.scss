@@ -1,0 +1,145 @@
+:host {
+  --sf-deload: #e63946;
+  --sf-push: #2a9d8f;
+  --sf-maintain: #457b9d;
+  --sf-bg-card: #1b1f24;
+  --sf-bg-card-2: #232830;
+  --sf-text: #f1f3f5;
+  --sf-text-dim: #9aa3ad;
+
+  display: block;
+  max-width: 880px;
+  margin-inline: auto;
+  padding: 1.5rem;
+  color: var(--sf-text);
+  font-family: system-ui, sans-serif;
+}
+
+.recovery__title {
+  margin: 0;
+  font-size: 2rem;
+  letter-spacing: -0.02em;
+}
+
+.recovery__subtitle {
+  margin: 0.25rem 0 1.5rem;
+  color: var(--sf-text-dim);
+}
+
+.verdict {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.1rem 1.25rem;
+  border-radius: 1rem;
+  background: var(--sf-bg-card);
+  border-left: 5px solid var(--sf-maintain);
+}
+
+.verdict--deload {
+  border-left-color: var(--sf-deload);
+}
+.verdict--push {
+  border-left-color: var(--sf-push);
+}
+
+.verdict__badge {
+  padding: 0.35rem 0.7rem;
+  border-radius: 0.5rem;
+  font-weight: 800;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.verdict--deload .verdict__badge {
+  color: var(--sf-deload);
+}
+.verdict--push .verdict__badge {
+  color: var(--sf-push);
+}
+.verdict--maintain .verdict__badge {
+  color: var(--sf-maintain);
+}
+
+.verdict__headline {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.75rem;
+  margin: 1.25rem 0;
+}
+
+.metric {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.85rem 1rem;
+  background: var(--sf-bg-card);
+  border-radius: 0.75rem;
+}
+
+.metric__label {
+  font-size: 0.8rem;
+  color: var(--sf-text-dim);
+}
+
+.metric__value {
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.section-title {
+  margin: 1.75rem 0 0.75rem;
+  font-size: 1.1rem;
+}
+
+.rationale {
+  margin: 0;
+  padding-left: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  color: var(--sf-text);
+}
+
+.suggestion {
+  margin: 1.25rem 0 0;
+  padding: 1rem 1.1rem;
+  background: var(--sf-bg-card-2);
+  border-radius: 0.75rem;
+  line-height: 1.5;
+}
+
+.volume {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--sf-bg-card);
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+.volume th,
+.volume td {
+  padding: 0.65rem 0.9rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.volume th {
+  font-size: 0.8rem;
+  color: var(--sf-text-dim);
+  font-weight: 600;
+}
+
+.volume tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.loading {
+  color: var(--sf-text-dim);
+}
