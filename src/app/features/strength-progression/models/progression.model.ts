@@ -121,3 +121,77 @@ export function buildFiveThreeOnePlan(oneRepMaxKg: number, trainingMaxKg: number
 
   return { scheme: '5/3/1', oneRepMaxKg, trainingMaxKg, goalKg, weeks };
 }
+
+// --- Roadmapa wielocyklowa: progresja aż do celu ---
+
+/** Standardowy przyrost Training Max na cykl dla bojów górnej części ciała. */
+export const TRAINING_MAX_INCREMENT_KG = 2.5;
+
+/** Liczba tygodni roboczych w jednym mikrocyklu 5/3/1 (bez tygodnia deload). */
+export const WEEKS_PER_CYCLE = 3;
+
+/** Bezpiecznik – maksymalna liczba projektowanych cykli (gdy cel nieosiągalny). */
+const MAX_PROJECTED_CYCLES = 24;
+
+/** Pojedynczy cykl na ścieżce do celu. */
+export interface ProgressionCycle {
+  readonly cycle: number;
+  readonly trainingMaxKg: number;
+  /** Prognozowany 1RM wynikający z Training Max tego cyklu (TM / 0.9). */
+  readonly projectedOneRepMaxKg: number;
+  readonly weeks: readonly BenchSession[];
+  /** Czy prognozowany 1RM tego cyklu osiąga (lub przekracza) cel. */
+  readonly reachesGoal: boolean;
+}
+
+/** Kompletna ścieżka progresji od bieżącego 1RM do celu. */
+export interface ProgressionRoadmap {
+  readonly currentOneRepMaxKg: number;
+  readonly goalKg: number;
+  readonly cyclesToGoal: number;
+  readonly weeksToGoal: number;
+  readonly cycles: readonly ProgressionCycle[];
+}
+
+/** Szacowany 1RM ze zrealizowanej serii (wzór Epleya) – do analizy AMRAP. */
+export function estimateOneRepMax(weightKg: number, reps: number): number {
+  return Math.round(weightKg * (1 + reps / 30) * 10) / 10;
+}
+
+/**
+ * Buduje wielocyklową roadmapę: kolejne mikrocykle 5/3/1 z Training Max rosnącym
+ * o stały przyrost, aż prognozowany 1RM osiągnie cel.
+ *
+ * Czysta funkcja (bez Angulara/stanu) – w pełni testowalna. Gdy 1RM już ≥ cel,
+ * zwraca pustą roadmapę (zero cykli do zrobienia).
+ */
+export function buildProgressionRoadmap(currentOneRepMaxKg: number, goalKg: number): ProgressionRoadmap {
+  if (currentOneRepMaxKg >= goalKg) {
+    return { currentOneRepMaxKg, goalKg, cyclesToGoal: 0, weeksToGoal: 0, cycles: [] };
+  }
+
+  const cycles: ProgressionCycle[] = [];
+  let trainingMaxKg = roundToPlate(currentOneRepMaxKg * TRAINING_MAX_FACTOR);
+
+  for (let cycle = 1; cycle <= MAX_PROJECTED_CYCLES; cycle += 1) {
+    const projectedOneRepMaxKg = Math.round((trainingMaxKg / TRAINING_MAX_FACTOR) * 10) / 10;
+    const reachesGoal = projectedOneRepMaxKg >= goalKg;
+    const weeks = buildFiveThreeOnePlan(projectedOneRepMaxKg, trainingMaxKg, goalKg).weeks;
+
+    cycles.push({ cycle, trainingMaxKg, projectedOneRepMaxKg, weeks, reachesGoal });
+
+    if (reachesGoal) {
+      break;
+    }
+    trainingMaxKg = roundToPlate(trainingMaxKg + TRAINING_MAX_INCREMENT_KG);
+  }
+
+  const cyclesToGoal = cycles.length;
+  return {
+    currentOneRepMaxKg,
+    goalKg,
+    cyclesToGoal,
+    weeksToGoal: cyclesToGoal * WEEKS_PER_CYCLE,
+    cycles,
+  };
+}
