@@ -1,0 +1,173 @@
+:host {
+  --sf-on-track: #2a9d8f;
+  --sf-at-risk: #e9a23b;
+  --sf-goal: #e63946;
+  --sf-bg-card: #1b1f24;
+  --sf-bg-card-2: #232830;
+  --sf-text: #f1f3f5;
+  --sf-text-dim: #9aa3ad;
+
+  display: block;
+  max-width: 920px;
+  margin-inline: auto;
+  padding: 1.5rem;
+  color: var(--sf-text);
+  font-family: system-ui, sans-serif;
+}
+
+.roadmap__title {
+  margin: 0;
+  font-size: 2rem;
+  letter-spacing: -0.02em;
+}
+
+.roadmap__subtitle {
+  margin: 0.25rem 0 1.5rem;
+  color: var(--sf-text-dim);
+}
+
+.outlook {
+  padding: 1.25rem;
+  background: var(--sf-bg-card);
+  border-radius: 1rem;
+  border-left: 5px solid var(--sf-on-track);
+}
+
+.outlook--at_risk {
+  border-left-color: var(--sf-at-risk);
+}
+.outlook--goal_reached {
+  border-left-color: var(--sf-goal);
+}
+
+.outlook__top {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.outlook__badge {
+  padding: 0.3rem 0.65rem;
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.outlook--on_track .outlook__badge {
+  color: var(--sf-on-track);
+}
+.outlook--at_risk .outlook__badge {
+  color: var(--sf-at-risk);
+}
+.outlook--goal_reached .outlook__badge {
+  color: var(--sf-goal);
+}
+
+.outlook__headline {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.outlook__metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.metric {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.7rem 0.85rem;
+  background: var(--sf-bg-card-2);
+  border-radius: 0.6rem;
+}
+
+.metric__label {
+  font-size: 0.78rem;
+  color: var(--sf-text-dim);
+}
+
+.metric__value {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.outlook__rationale {
+  margin: 0;
+  padding-left: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  color: var(--sf-text);
+  font-size: 0.92rem;
+}
+
+.section-title {
+  margin: 1.75rem 0 0.85rem;
+  font-size: 1.15rem;
+}
+
+.cycles {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.cycle {
+  padding: 0.9rem 1.1rem;
+  background: var(--sf-bg-card);
+  border-radius: 0.85rem;
+  border: 1px solid transparent;
+}
+
+.cycle--goal {
+  border-color: color-mix(in srgb, var(--sf-goal) 50%, transparent);
+}
+
+.cycle__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.35rem;
+}
+
+.cycle__index {
+  font-weight: 700;
+}
+
+.cycle__flag {
+  font-size: 0.8rem;
+  color: var(--sf-goal);
+  font-weight: 700;
+}
+
+.cycle__stat {
+  margin: 0 0 0.5rem;
+  font-size: 0.9rem;
+  color: var(--sf-text-dim);
+}
+
+.cycle__weeks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.chip {
+  padding: 0.25rem 0.55rem;
+  background: var(--sf-bg-card-2);
+  border-radius: 0.4rem;
+  font-size: 0.8rem;
+}
+
+.done {
+  color: var(--sf-text-dim);
+}

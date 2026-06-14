@@ -1,0 +1,75 @@
+<section class="roadmap">
+  <header class="roadmap__header">
+    <h1 class="roadmap__title">Plan do celu</h1>
+    <p class="roadmap__subtitle">Progresja 5/3/1 aż do {{ roadmap().goalKg }} kg · analiza AI na bieżąco</p>
+  </header>
+
+  <!-- Analiza AI -->
+  @if (outlook(); as o) {
+    <article class="outlook outlook--{{ o.verdict | lowercase }}">
+      <div class="outlook__top">
+        <span class="outlook__badge">{{ o.verdict }}</span>
+        <h2 class="outlook__headline">{{ o.headline }}</h2>
+      </div>
+
+      <div class="outlook__metrics">
+        <div class="metric">
+          <span class="metric__label">Do celu</span>
+          <span class="metric__value">{{ o.kilogramsToGoal | number: '1.1-1' }} kg</span>
+        </div>
+        <div class="metric">
+          <span class="metric__label">Cykle</span>
+          <span class="metric__value">{{ o.cyclesToGoal }}</span>
+        </div>
+        <div class="metric">
+          <span class="metric__label">Czas</span>
+          <span class="metric__value">~{{ o.weeksToGoal }} tyg.</span>
+        </div>
+        <div class="metric">
+          <span class="metric__label">Tempo</span>
+          <span class="metric__value">{{ o.requiredWeeklyGainKg | number: '1.2-2' }} kg/tydz.</span>
+        </div>
+        @if (o.estimatedCompletion) {
+          <div class="metric">
+            <span class="metric__label">Szac. data</span>
+            <span class="metric__value">{{ o.estimatedCompletion }}</span>
+          </div>
+        }
+      </div>
+
+      <ul class="outlook__rationale">
+        @for (reason of o.rationale; track $index) {
+          <li>{{ reason }}</li>
+        }
+      </ul>
+    </article>
+  }
+
+  <!-- Oś cykli -->
+  <h2 class="section-title">Mapa cykli</h2>
+  @if (roadmap().cycles.length > 0) {
+    <ol class="cycles">
+      @for (cycle of roadmap().cycles; track cycle.cycle) {
+        <li class="cycle" [class.cycle--goal]="cycle.reachesGoal">
+          <div class="cycle__head">
+            <span class="cycle__index">Cykl {{ cycle.cycle }}</span>
+            @if (cycle.reachesGoal) {
+              <span class="cycle__flag">🎯 cel</span>
+            }
+          </div>
+          <p class="cycle__stat">
+            Training Max <strong>{{ cycle.trainingMaxKg | number: '1.1-1' }} kg</strong>
+            · prognoza 1RM <strong>{{ cycle.projectedOneRepMaxKg | number: '1.1-1' }} kg</strong>
+          </p>
+          <div class="cycle__weeks">
+            @for (week of cycle.weeks; track week.week) {
+              <span class="chip">T{{ week.week }}: {{ week.topSetWeightKg | number: '1.1-1' }} kg</span>
+            }
+          </div>
+        </li>
+      }
+    </ol>
+  } @else {
+    <p class="done">Cel już osiągnięty — ustaw wyższy w zakładce Pulpit. 💪</p>
+  }
+</section>
