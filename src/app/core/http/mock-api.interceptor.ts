@@ -20,6 +20,22 @@ export const mockApiInterceptor: HttpInterceptorFn = (req, next) => {
     ).pipe(delay(400));
   }
 
+  if (req.method === 'GET' && req.url.endsWith('/recovery/volume-history')) {
+    // Celowo rosnący tonaż i RPE – scenariusz akumulacji zmęczenia (→ Deload).
+    return of(
+      new HttpResponse({
+        status: 200,
+        body: [
+          { week: 1, label: 'Tydzień 19', tonnageKg: 9000, hardSets: 10, avgRpe: 7.0 },
+          { week: 2, label: 'Tydzień 20', tonnageKg: 9800, hardSets: 12, avgRpe: 7.5 },
+          { week: 3, label: 'Tydzień 21', tonnageKg: 10500, hardSets: 13, avgRpe: 8.0 },
+          { week: 4, label: 'Tydzień 22', tonnageKg: 11200, hardSets: 15, avgRpe: 8.5 },
+          { week: 5, label: 'Tydzień 23', tonnageKg: 12000, hardSets: 17, avgRpe: 9.0 },
+        ],
+      }),
+    ).pipe(delay(400));
+  }
+
   // Żądanie nieobsługiwane przez mock → przepuść dalej (do realnego backendu).
   return next(req);
 };
