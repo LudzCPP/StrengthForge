@@ -1,0 +1,45 @@
+<form class="profile-form" (submit)="$event.preventDefault()">
+  <div class="field">
+    <label class="field__label" for="bodyweight">Masa ciała [kg]</label>
+    <input
+      id="bodyweight"
+      class="field__input"
+      type="number"
+      min="0"
+      step="0.5"
+      [value]="bodyweight()"
+      (input)="updateBodyweight($any($event.target).value)"
+    />
+  </div>
+
+  <div class="field">
+    <label class="field__label" for="one-rep-max">Aktualny 1RM [kg]</label>
+    <input
+      id="one-rep-max"
+      class="field__input"
+      type="number"
+      min="0"
+      step="2.5"
+      [value]="oneRepMax()"
+      (input)="updateOneRepMax($any($event.target).value)"
+    />
+  </div>
+
+  <div class="field">
+    <label class="field__label" for="goal">Cel [kg]</label>
+    <input
+      id="goal"
+      class="field__input"
+      type="number"
+      min="0"
+      step="2.5"
+      [value]="goal()"
+      (input)="updateGoal($any($event.target).value)"
+    />
+  </div>
+
+  <div class="field field--readonly">
+    <span class="field__label">Siła względna (1RM / masa)</span>
+    <span class="field__metric">{{ relativeStrength() | number: '1.2-2' }}×</span>
+  </div>
+</form>
