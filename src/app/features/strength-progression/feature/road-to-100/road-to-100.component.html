@@ -1,0 +1,77 @@
+<section class="road">
+  <header class="road__header">
+    <h1 class="road__title">Road to 100 kg</h1>
+    <p class="road__subtitle">Wyciskanie sztangi leżąc · mikrocykl 5/3/1</p>
+  </header>
+
+  <!-- Pasek postępu do celu -->
+  <div class="stats">
+    <div class="stat">
+      <span class="stat__label">Aktualny 1RM</span>
+      <span class="stat__value">{{ oneRepMax() | number: '1.1-1' }} kg</span>
+    </div>
+    <div class="stat">
+      <span class="stat__label">Training Max (90%)</span>
+      <span class="stat__value">{{ trainingMax() | number: '1.1-1' }} kg</span>
+    </div>
+    <div class="stat">
+      <span class="stat__label">Cel</span>
+      <span class="stat__value">{{ goal() }} kg</span>
+    </div>
+  </div>
+
+  <div class="progress">
+    <div class="progress__bar" [style.width.%]="progressPercent()"></div>
+    <span class="progress__caption">
+      {{ progressPercent() / 100 | percent }} celu · brakuje {{ kilogramsToGoal() }} kg
+    </span>
+  </div>
+
+  <!-- Najbliższy trening -->
+  @if (nextSession(); as session) {
+    <article class="next-session">
+      <h2 class="next-session__title">Najbliższy trening — {{ session.label }}</h2>
+
+      <ul class="set-list">
+        @for (set of session.mainSets; track set.order) {
+          <li class="set" [class.set--amrap]="set.isAmrap">
+            <span class="set__order">Seria {{ set.order }}</span>
+            <span class="set__load">{{ set.weightKg }} kg</span>
+            <span class="set__pct">{{ set.percentageOfTm | percent }} TM</span>
+            <span class="set__reps">
+              {{ set.targetReps }}@if (set.isAmrap) {<strong>+</strong>} powt.
+            </span>
+          </li>
+        } @empty {
+          <li class="set set--empty">Brak zaplanowanych serii.</li>
+        }
+      </ul>
+
+      @if (session.mainSets.some((s) => s.isAmrap)) {
+        <p class="next-session__hint">
+          Seria z „+” to AMRAP — wykonaj maksymalną liczbę powtórzeń w czystej technice.
+        </p>
+      }
+    </article>
+  } @else {
+    <p class="loading">Ładowanie planu z mikroserwisu…</p>
+  }
+
+  <!-- Pełny 3-tygodniowy mikrocykl -->
+  <h2 class="plan__title">Mikrocykl — 3 tygodnie</h2>
+  <div class="weeks">
+    @for (week of plan().weeks; track week.week) {
+      <article class="week">
+        <h3 class="week__title">{{ week.label }}</h3>
+        <p class="week__top">Top set: <strong>{{ week.topSetWeightKg }} kg</strong></p>
+        <ol class="week__sets">
+          @for (set of week.mainSets; track set.order) {
+            <li>
+              {{ set.weightKg }} kg × {{ set.targetReps }}@if (set.isAmrap) {+}
+            </li>
+          }
+        </ol>
+      </article>
+    }
+  </div>
+</section>
