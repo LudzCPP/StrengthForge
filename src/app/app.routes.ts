@@ -21,6 +21,14 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'roadmap',
+    title: 'Plan do celu · StrengthForge',
+    loadComponent: () =>
+      import('./features/progress-coach/feature/roadmap/roadmap.component').then(
+        (m) => m.RoadmapComponent,
+      ),
+  },
+  {
     path: 'recovery',
     title: 'Asystent regeneracji · StrengthForge',
     loadComponent: () =>

@@ -121,3 +121,12 @@
 .verdict-badge--maintain {
   color: #457b9d;
 }
+.verdict-badge--on_track {
+  color: #2a9d8f;
+}
+.verdict-badge--at_risk {
+  color: #e9a23b;
+}
+.verdict-badge--goal_reached {
+  color: var(--sf-accent);
+}

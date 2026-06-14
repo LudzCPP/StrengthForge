@@ -34,6 +34,21 @@
       </article>
     }
 
+    <!-- Karta: analiza AI postępu -->
+    @if (outlook(); as o) {
+      <article class="card" [class.card--alert]="o.verdict === 'AT_RISK'">
+        <h3 class="card__title">Analiza AI</h3>
+        <p class="verdict-badge verdict-badge--{{ o.verdict | lowercase }}">{{ o.verdict }}</p>
+        <p class="card__meta card__meta--strong">{{ o.headline }}</p>
+        <p class="card__meta">
+          {{ o.cyclesToGoal }} cykli · ~{{ o.weeksToGoal }} tyg.@if (o.estimatedCompletion) {
+            · do {{ o.estimatedCompletion }}
+          }
+        </p>
+        <a class="card__link" routerLink="/roadmap">Plan do celu →</a>
+      </article>
+    }
+
     <!-- Karta: status regeneracji -->
     @if (assessment(); as a) {
       <article class="card" [class.card--alert]="a.verdict === 'DELOAD'">

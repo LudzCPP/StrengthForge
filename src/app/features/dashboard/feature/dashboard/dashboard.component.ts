@@ -5,6 +5,7 @@ import { AthleteProfileService } from '../../../athlete-profile/data-access/athl
 import { AthleteProfileFormComponent } from '../../../athlete-profile/feature/athlete-profile-form/athlete-profile-form.component';
 import { BenchPressProgressionService } from '../../../strength-progression/data-access/bench-press-progression.service';
 import { RecoveryAdvisorService } from '../../../recovery-ai/data-access/recovery-advisor.service';
+import { ProgressionCoachService } from '../../../progress-coach/data-access/progression-coach.service';
 
 /**
  * Dashboard – widok startowy agregujący wszystkie domeny.
@@ -24,7 +25,9 @@ export class DashboardComponent {
   private readonly profile = inject(AthleteProfileService);
   private readonly progression = inject(BenchPressProgressionService);
   private readonly recovery = inject(RecoveryAdvisorService);
+  private readonly coach = inject(ProgressionCoachService);
 
+  protected readonly outlook = this.coach.outlook;
   protected readonly oneRepMax = this.profile.oneRepMaxKg;
   protected readonly goal = this.profile.goalKg;
   protected readonly trainingMax = this.progression.trainingMaxKg;

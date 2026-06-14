@@ -22,6 +22,6 @@ describe('App', () => {
 
     expect(compiled.querySelector('.app__brand')?.textContent).toContain('StrengthForge');
     const links = Array.from(compiled.querySelectorAll('.app__nav a')).map((a) => a.textContent?.trim());
-    expect(links).toEqual(['Pulpit', 'Road to 100kg', 'Regeneracja']);
+    expect(links).toEqual(['Pulpit', 'Road to 100kg', 'Plan do celu', 'Regeneracja']);
   });
 });
