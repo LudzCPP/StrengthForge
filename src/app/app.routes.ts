@@ -1,7 +1,15 @@
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'road-to-100' },
+  { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
+  {
+    path: 'dashboard',
+    title: 'Pulpit · StrengthForge',
+    loadComponent: () =>
+      import('./features/dashboard/feature/dashboard/dashboard.component').then(
+        (m) => m.DashboardComponent,
+      ),
+  },
   {
     path: 'road-to-100',
     title: 'Road to 100 kg · StrengthForge',

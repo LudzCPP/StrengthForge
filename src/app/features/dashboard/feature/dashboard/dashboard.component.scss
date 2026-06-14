@@ -1,0 +1,123 @@
+:host {
+  --sf-accent: #e63946;
+  --sf-bg-card: #1b1f24;
+  --sf-text: #f1f3f5;
+  --sf-text-dim: #9aa3ad;
+
+  display: block;
+  max-width: 980px;
+  margin-inline: auto;
+  padding: 1.5rem;
+  color: var(--sf-text);
+  font-family: system-ui, sans-serif;
+}
+
+.dashboard__title {
+  margin: 0;
+  font-size: 2rem;
+  letter-spacing: -0.02em;
+}
+
+.dashboard__subtitle {
+  margin: 0.25rem 0 1.5rem;
+  color: var(--sf-text-dim);
+}
+
+.dashboard__section {
+  margin: 0 0 0.85rem;
+  font-size: 1.1rem;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.1rem 1.25rem;
+  background: var(--sf-bg-card);
+  border-radius: 1rem;
+  border: 1px solid transparent;
+}
+
+.card--alert {
+  border-color: color-mix(in srgb, var(--sf-accent) 45%, transparent);
+}
+
+.card__title {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.card__big {
+  margin: 0;
+  font-size: 1.9rem;
+  font-weight: 800;
+}
+
+.card__meta {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--sf-text-dim);
+}
+
+.card__meta--strong {
+  color: var(--sf-text);
+  font-weight: 600;
+}
+
+.card__link {
+  margin-top: auto;
+  color: var(--sf-accent);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.progress {
+  height: 0.6rem;
+  background: #0f1216;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress__bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--sf-accent), #ff8c5a);
+  transition: width 0.4s ease;
+}
+
+.mini-sets {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  font-size: 0.9rem;
+}
+
+.verdict-badge {
+  align-self: flex-start;
+  margin: 0;
+  padding: 0.25rem 0.6rem;
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.verdict-badge--deload {
+  color: var(--sf-accent);
+}
+.verdict-badge--push {
+  color: #2a9d8f;
+}
+.verdict-badge--maintain {
+  color: #457b9d;
+}

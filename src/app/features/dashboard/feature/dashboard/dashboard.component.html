@@ -1,0 +1,50 @@
+<section class="dashboard">
+  <header class="dashboard__header">
+    <h1 class="dashboard__title">Pulpit</h1>
+    <p class="dashboard__subtitle">StrengthForge · Twój dziennik siły w jednym miejscu</p>
+  </header>
+
+  <h2 class="dashboard__section">Twoje dane</h2>
+  <sf-athlete-profile-form />
+
+  <div class="cards">
+    <!-- Karta: postęp do celu -->
+    <article class="card">
+      <h3 class="card__title">Road to {{ goal() }} kg</h3>
+      <p class="card__big">{{ oneRepMax() | number: '1.1-1' }} kg</p>
+      <div class="progress">
+        <div class="progress__bar" [style.width.%]="progressPercent()"></div>
+      </div>
+      <p class="card__meta">{{ progressPercent() }}% celu · brakuje {{ kilogramsToGoal() }} kg</p>
+      <a class="card__link" routerLink="/road-to-100">Zobacz plan →</a>
+    </article>
+
+    <!-- Karta: najbliższy trening -->
+    @if (nextSession(); as session) {
+      <article class="card">
+        <h3 class="card__title">Najbliższy trening</h3>
+        <p class="card__meta card__meta--strong">{{ session.label }}</p>
+        <ul class="mini-sets">
+          @for (set of session.mainSets; track set.order) {
+            <li>{{ set.weightKg }} kg × {{ set.targetReps }}@if (set.isAmrap) {+}</li>
+          }
+        </ul>
+        <p class="card__meta">Training Max: {{ trainingMax() | number: '1.1-1' }} kg</p>
+        <a class="card__link" routerLink="/road-to-100">Szczegóły →</a>
+      </article>
+    }
+
+    <!-- Karta: status regeneracji -->
+    @if (assessment(); as a) {
+      <article class="card" [class.card--alert]="a.verdict === 'DELOAD'">
+        <h3 class="card__title">Regeneracja</h3>
+        <p class="verdict-badge verdict-badge--{{ a.verdict | lowercase }}">{{ a.verdict }}</p>
+        <p class="card__meta card__meta--strong">{{ a.headline }}</p>
+        @if (a.rationale.length > 0) {
+          <p class="card__meta">{{ a.rationale[0] }}</p>
+        }
+        <a class="card__link" routerLink="/recovery">Analiza →</a>
+      </article>
+    }
+  </div>
+</section>
