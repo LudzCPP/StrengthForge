@@ -1,0 +1,111 @@
+<section class="log">
+  <header class="log__header">
+    <h1 class="log__title">Dziennik treningu</h1>
+    <p class="log__subtitle">Zapisuj wykonane serie · szacuj 1RM · zasilaj analizę AI</p>
+  </header>
+
+  <!-- Formularz nowego treningu -->
+  <form class="logger" (submit)="$event.preventDefault(); save()">
+    <div class="logger__top">
+      <div class="field">
+        <label class="field__label" for="log-date">Data</label>
+        <input
+          id="log-date"
+          class="field__input"
+          type="date"
+          [value]="date()"
+          (input)="date.set($any($event.target).value)"
+        />
+      </div>
+      <button type="button" class="btn btn--ghost" (click)="loadFromPlan()">Wczytaj z planu</button>
+    </div>
+
+    <div class="sets">
+      <div class="sets__head">
+        <span>Obciążenie [kg]</span>
+        <span>Powtórzenia</span>
+        <span>RPE</span>
+        <span></span>
+      </div>
+
+      @for (row of draft(); track $index) {
+        <div class="sets__row">
+          <input
+            class="field__input"
+            type="number"
+            min="0"
+            step="2.5"
+            [value]="row.weightKg"
+            (input)="setWeight($index, $any($event.target).value)"
+          />
+          <input
+            class="field__input"
+            type="number"
+            min="0"
+            step="1"
+            [value]="row.reps"
+            (input)="setReps($index, $any($event.target).value)"
+          />
+          <input
+            class="field__input"
+            type="number"
+            min="0"
+            max="10"
+            step="0.5"
+            [value]="row.rpe"
+            (input)="setRpe($index, $any($event.target).value)"
+          />
+          <button type="button" class="btn btn--icon" (click)="removeRow($index)" aria-label="Usuń serię">
+            ✕
+          </button>
+        </div>
+      }
+    </div>
+
+    <div class="logger__actions">
+      <button type="button" class="btn btn--ghost" (click)="addRow()">+ Dodaj serię</button>
+      <button type="submit" class="btn btn--primary" [disabled]="!canSave()">Zapisz trening</button>
+    </div>
+  </form>
+
+  <!-- Szacowany 1RM z dziennika + pętla zwrotna -->
+  @if (estimatedOneRepMax(); as estimate) {
+    <article class="estimate">
+      <div>
+        <span class="estimate__label">Szacowany 1RM z ostatniego treningu (Epley)</span>
+        <span class="estimate__value">{{ estimate | number: '1.1-1' }} kg</span>
+      </div>
+      <button type="button" class="btn btn--primary" (click)="applyEstimateToProfile()">
+        Zastosuj do profilu
+      </button>
+    </article>
+  }
+
+  <!-- Historia -->
+  <h2 class="section-title">Historia</h2>
+  @if (history().length > 0) {
+    <ul class="history">
+      @for (entry of history(); track entry.id) {
+        <li class="entry">
+          <div class="entry__head">
+            <span class="entry__date">{{ entry.date }}</span>
+            <span class="entry__est">~{{ estimateFor(entry) | number: '1.1-1' }} kg 1RM</span>
+            <button type="button" class="btn btn--icon" (click)="remove(entry.id)" aria-label="Usuń trening">
+              ✕
+            </button>
+          </div>
+          <div class="entry__sets">
+            @for (set of entry.sets; track $index) {
+              <span class="chip">
+                {{ set.weightKg }}×{{ set.reps }}@if (set.rpe !== null) {<em> RPE {{ set.rpe }}</em>}
+              </span>
+            }
+          </div>
+          <span class="entry__tonnage">Tonaż: {{ tonnageFor(entry) | number }} kg</span>
+        </li>
+      }
+    </ul>
+  } @else {
+    <p class="empty">Brak zapisanych treningów. Dodaj pierwszy powyżej. 💪</p>
+  }
+</section>

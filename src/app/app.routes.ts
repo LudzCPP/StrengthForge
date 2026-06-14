@@ -29,6 +29,14 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'log',
+    title: 'Dziennik · StrengthForge',
+    loadComponent: () =>
+      import('./features/workout-log/feature/log-workout/log-workout.component').then(
+        (m) => m.LogWorkoutComponent,
+      ),
+  },
+  {
     path: 'recovery',
     title: 'Asystent regeneracji · StrengthForge',
     loadComponent: () =>
